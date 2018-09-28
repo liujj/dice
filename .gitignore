@@ -1,0 +1,12 @@
+.vscode
+.idea
+.svn
+.DS_Store
+*.tar.gz
+*.zip
+/glide.lock
+/bin
+/out
+/log
+/vendor
+/config/config.*.json
