@@ -160,11 +160,15 @@
         } else return {}
       },
       colorStyleBtn() {
-        if (this.roll.show && this.roll.result) {
+        if (this.loading) {
+          return {backgroundColor: '#9b9b9b', borderColor: '#9b9b9b'}
+        } else if (this.roll.show && this.roll.result) {
           return {backgroundColor: '#6be42f', borderColor: '#6be42f'}
         } else if (this.roll.show && !this.roll.result) {
           return {backgroundColor: '#ff3e3e', borderColor: '#ff3e3e'}
-        } else return {backgroundColor: '#0191ee', borderColor: '#0191ee'}
+        } else {
+          return {backgroundColor: '#0191ee', borderColor: '#0191ee'}
+        }
       },
     },
     methods: {
