@@ -72,7 +72,7 @@
       </div>
       <div class="game-container-bottom justify-content-around flex-wrap" v-if="account.vaild&&!account.lock">
         <div class="col-12 mt-3 mt-sm-0 w-100">
-          <button class="btn btn-lg" @click="makeRoll" :disabled="this.roll.show" :style="colorStyleBtn">Roll</button>
+          <button class="btn btn-lg" @click="makeRoll" :disabled="this.roll.show||this.loading" :style="colorStyleBtn">Roll</button>
         </div>
       </div>
     </div>
@@ -103,10 +103,10 @@
     box-shadow: 0 0 20px #dd6161;
   }
 </style>
-<script src="/static/vue/vue.js"></script>
+<script src="/static/vue/vue.min.js"></script>
 <script src="/static/vue/components/vue-resource.min.js"></script>
 <script src="/static/vue/global.js"></script>
-<script src="/static/vue/element/element-ui.js"></script>
+<script src="/static/vue/element/element-ui.min.js"></script>
 <script>
   //默认application/json;改为x-www-form-urlencoded
   Vue.http.options.emulateJSON = true;
@@ -188,7 +188,6 @@
         this.game.payout = this.game.bet * 98.5 / under;
       },
       initQuery: function () {
-        this.loading = true;
         this.fetch('/status').then(
             d => {
               this.refreshData(this.game.under)
@@ -220,7 +219,7 @@
       accountInfo() {
         let bankrupptInfo = this.account.bankrupt_at
         if (bankrupptInfo === null) {
-          bankrupptInfo = "否"
+          bankrupptInfo = "No"
         }
         this.$alert('Create At：' + this.account.create_at + '<br/>Rounds：' + this.account.tx_count + '<br/>Peak Balance：' + this.account.peak + '<br/>Is Bankrupted：' + bankrupptInfo, 'Account Info', {
           confirmButtonText: 'Confirm',
@@ -234,12 +233,15 @@
           });
           return
         }
+        if (this.loading) {
+          return
+        }
+        this.loading = true
         this.fetch('/roll?bet=' + this.game.bet + '&under=' + this.game.under).then(
             d => {
               this.setKey(d.k)
               this.setRoll(d.r)
-            }, (err) => this.$message.error(err)
-        );
+            }).catch((err) => this.$message.error(err)).finally(() => this.loading = false)
       },
       setRoll: function (r) {
         if (r === null) {

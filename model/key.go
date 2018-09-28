@@ -13,8 +13,8 @@ type Key struct {
 	ID         uint         `json:"-" gorm:"primary_key"`
 	Ak         string       `json:"ak"`
 	Sk         string       `json:"sk"`
-	Balance    float32      `json:"balance"`
-	Peak       float32      `json:"peak"`
+	Balance    float64      `json:"balance"`
+	Peak       float64      `json:"peak"`
 	TxCount    uint         `json:"tx_count"`
 	Remark     string       `json:"remark"`
 	Vaild      bool         `json:"vaild"`

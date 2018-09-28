@@ -50,7 +50,7 @@ func Roll(c echo.Context) (err error) {
 	bet := c.QueryParam("bet")
 	betFloat, err := strconv.ParseFloat(bet, 32)
 
-	r := model.MakeRoll(k, float32(betFloat), uint8(underInt))
+	r := model.MakeRoll(k, float64(betFloat), uint8(underInt))
 	DataResponse(c, http.StatusOK, 0, "ok", struct {
 		K *model.Key  `json:"k"`
 		R *model.Roll `json:"r"`

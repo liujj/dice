@@ -9,13 +9,13 @@ type Roll struct {
 	ID         uint     `json:"-" gorm:"primary_key"`
 	Key        string   `json:"key" gorm:"unique"`
 	KeyObj     *Key     `json:"-" gorm:"-"`
-	Bet        float32  `json:"bet"`
+	Bet        float64  `json:"bet"`
 	RollUnder  uint8    `json:"roll_under"`
 	RollRandom uint8    `json:"roll_random"`
-	Payout     float32  `json:"payout"`
+	Payout     float64  `json:"payout"`
 	Result     bool     `json:"result"`
-	Before     float32  `json:"before"`
-	After      float32  `json:"after"`
+	Before     float64  `json:"before"`
+	After      float64  `json:"after"`
 	CreatedAt  JsonTime `json:"roll_time"`
 }
 
@@ -23,7 +23,7 @@ func (c *Roll) TableName() string {
 	return "roll"
 }
 
-func MakeRoll(k *Key, bet float32, under uint8) *Roll {
+func MakeRoll(k *Key, bet float64, under uint8) *Roll {
 	if !k.Vaild {
 		return nil
 	}
@@ -36,7 +36,7 @@ func MakeRoll(k *Key, bet float32, under uint8) *Roll {
 	rand32 := rand.Intn(100)
 	rand8 := uint8(rand32)
 	res := (rand8 < under)
-	payout := bet * 98.5 / float32(under)
+	payout := bet * 98.5 / float64(under)
 	r := &Roll{
 		Key:        k.Ak,
 		KeyObj:     k,
