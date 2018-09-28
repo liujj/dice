@@ -33,7 +33,7 @@ func Start(c echo.Context) (err error) {
 	}
 	sess.Values["ak"] = ak
 	sess.Save(c.Request(), c.Response())
-	return SimpleResponse(c, http.StatusOK, 0, "let's start")
+	return c.Redirect(302,"/static/index.html")
 }
 
 func Roll(c echo.Context) (err error) {
