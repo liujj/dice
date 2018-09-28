@@ -16,7 +16,7 @@ build:
 	@go build -ldflags '$(LDFLAGS)' -o ./bin/tm_launcher ./launcher/main.go
 
 out:
-	@if [ -e out ] ; then rm -rf out; fi
+	@if [ -e out ] ; then rm -rf out ; fi
 	@mkdir out
 	@cp ./bin/tm_app ./out
 	@cp ./bin/tm_launcher ./out
@@ -24,8 +24,9 @@ out:
 	@cp -r ./view ./out
 
 pack:
-	@cd out;zip -rq9 $(PACK_FILE).zip .;cd ..
-	@mv ./out/$(PACK_FILE).zip .
+	@if [ ! -e /opt/app/tigerMachine ] ; then mkdir /opt/app/tigerMachine ; fi
+	@rm -rf /opt/app/tigerMachine/view
+	@mv ./out/* /opt/app/tigerMachine
 
 clean:
 	@rm -rf ./bin
