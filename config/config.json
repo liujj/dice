@@ -2,11 +2,11 @@
   "debug": false,
   "http": {
     "admin_port": ":2333",
-    "public_port": ":2345",
+    "public_port": ":2332",
     "gzip_level": 5
   },
   "db": {
-    "dsn": "./db.db",
+    "dsn": "./db.sqlite3",
     "idle": 5,
     "max_idle": 10,
     "max_open": 50
@@ -14,7 +14,7 @@
   "log": "./log/",
   "view": "./view/",
   "admin": {
-    "user": "cheat",
+    "user": "god",
     "pass": "whosyourdaddy"
   }
 }

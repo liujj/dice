@@ -16,7 +16,7 @@ func init() {
 	}
 
 	BinOf = map[string]string{
-		"app": "./cb_app",
+		"app": "./tm_app",
 	}
 
 	cfgOf = map[string]string{
@@ -24,7 +24,7 @@ func init() {
 	}
 
 	ModuleApps = map[string]string{
-		"app": "cb_app",
+		"app": "tm_app",
 	}
 
 	logpathOf = map[string]string{
