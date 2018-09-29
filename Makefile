@@ -1,5 +1,5 @@
-LDFLAGS += -X "coinsBook/version.BuildTime=$(shell date "+%Y-%m-%d %T %Z")"
-LDFLAGS += -X "coinsBook/version.GitCommit=$(shell git rev-parse HEAD)"
+LDFLAGS += -X "tigerMachine/version.BuildTime=$(shell date "+%Y-%m-%d %T %Z")"
+LDFLAGS += -X "tigerMachine/version.GitCommit=$(shell git rev-parse HEAD)"
 OS := $(shell uname -s).$(shell uname -m)
 GOVET = go tool vet -composites=false -methods=false -structtags=false
 GOFMT ?= gofmt "-s"
