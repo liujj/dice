@@ -94,7 +94,7 @@
     </el-table-column>
     <el-table-column label="CHANGE" width="120">
       <template slot-scope="scope">
-        <span v-if="scope.row.result" :style="{color:'#6be42f!important'}">+{{scope.row.payout|demicalFix4}}</span>
+        <span v-if="scope.row.result" :style="{color:'#6be42f!important'}">+{{scope.row.payout|minus(scope.row.bet)|demicalFix4}}</span>
         <span v-if="!scope.row.result" :style="{color:'#ff3e3e!important'}">-{{scope.row.bet|demicalFix4}}</span>
       </template>
     </el-table-column>
@@ -178,6 +178,9 @@
       }
     },
     filters: {
+      minus: function (a, b) {
+        return a - b
+      },
       demicalFix2: function (val) {
         return Math.round(val * 100) / 100
       },
