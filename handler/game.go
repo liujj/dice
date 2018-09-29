@@ -48,7 +48,7 @@ func Roll(c echo.Context) (err error) {
 	under := c.QueryParam("under")
 	underInt, err := strconv.Atoi(under)
 	bet := c.QueryParam("bet")
-	betFloat, err := strconv.ParseFloat(bet, 32)
+	betFloat, err := strconv.ParseFloat(bet, 64)
 
 	r := model.MakeRoll(k, float64(betFloat), uint8(underInt))
 	return DataResponse(c, http.StatusOK, 0, "ok", struct {
