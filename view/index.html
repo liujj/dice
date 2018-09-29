@@ -78,11 +78,11 @@
   <el-table :data="table" style="max-width:1000px;min-width:300px;width:70%;margin:30px auto;" :row-style="{backgroundColor:'#333'}">
     <el-table-column prop="roll_time" label="TIME" width="">
     </el-table-column>
-    <el-table-column prop="bet" label="BET" width="90">
+    <el-table-column prop="bet" label="BET" width="70">
     </el-table-column>
-    <el-table-column prop="roll_under" label="UNDER" width="90">
+    <el-table-column prop="roll_under" label="UNDER" width="80">
     </el-table-column>
-    <el-table-column label="RANDOM" width="100">
+    <el-table-column label="RANDOM" width="85">
       <template slot-scope="scope">
         <span :style="{color:(scope.row.result?'#6be42f!important':'#ff3e3e!important')}">{{scope.row.roll_random}}</span>
       </template>
@@ -90,6 +90,12 @@
     <el-table-column label="BEFORE" width="120">
       <template slot-scope="scope">
         <span>{{scope.row.before|demicalFix4}}</span>
+      </template>
+    </el-table-column>
+    <el-table-column label="CHANGE" width="120">
+      <template slot-scope="scope">
+        <span v-if="scope.row.result" :style="{color:'#6be42f!important'}">+{{scope.row.payout|demicalFix4}}</span>
+        <span v-if="!scope.row.result" :style="{color:'#ff3e3e!important'}">-{{scope.row.bet|demicalFix4}}</span>
       </template>
     </el-table-column>
     <el-table-column label="AFTER" width="120">
@@ -290,7 +296,7 @@
         this.roll.cssTop = dom.offsetTop + 20
         this.table.unshift(r)
         if (this.table.length > 25) {
-            this.table.pop()
+          this.table.pop()
         }
         this.showResult()
       },
