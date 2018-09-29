@@ -12,7 +12,10 @@ func NewKey(c echo.Context) error {
 	if err != nil {
 		return SimpleResponse(c, http.StatusBadRequest, -1, err.Error())
 	} else {
-		return DataResponse(c, http.StatusOK, 0, "ok", u)
+		return DataResponse(c, http.StatusOK, 0, "ok", struct {
+			*model.Key
+			Url string `json:"url""`
+		}{u, c.Request().Host + "/start?ak=" + u.Ak + "&sk=" + u.Sk})
 	}
 }
 
@@ -25,7 +28,7 @@ func QueryKey(c echo.Context) error {
 	if err != nil {
 		return SimpleResponse(c, http.StatusBadRequest, -1, err.Error())
 	} else {
-		return DataResponse(c, http.StatusOK, 0, "Key Found", u)
+		return DataResponse(c, http.StatusOK, 0, "ok", u)
 	}
 }
 

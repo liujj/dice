@@ -78,21 +78,21 @@
   <el-table :data="table" style="max-width:1000px;min-width:300px;width:70%;margin:30px auto;" :row-style="{backgroundColor:'#333'}">
     <el-table-column prop="roll_time" label="TIME" width="">
     </el-table-column>
-    <el-table-column prop="bet" label="BET" width="100">
+    <el-table-column prop="bet" label="BET" width="90">
     </el-table-column>
-    <el-table-column prop="roll_under" label="UNDER" width="100">
+    <el-table-column prop="roll_under" label="UNDER" width="90">
     </el-table-column>
     <el-table-column label="RANDOM" width="100">
       <template slot-scope="scope">
         <span :style="{color:(scope.row.result?'#6be42f!important':'#ff3e3e!important')}">{{scope.row.roll_random}}</span>
       </template>
     </el-table-column>
-    <el-table-column label="BEFORE" width="150">
+    <el-table-column label="BEFORE" width="120">
       <template slot-scope="scope">
         <span>{{scope.row.before|demicalFix4}}</span>
       </template>
     </el-table-column>
-    <el-table-column label="AFTER" width="150">
+    <el-table-column label="AFTER" width="120">
       <template slot-scope="scope">
         <span :style="{color:(scope.row.result?'#6be42f!important':'#ff3e3e!important')}">{{scope.row.after|demicalFix4}}</span>
       </template>
@@ -155,7 +155,7 @@
           bankrupt_at: false,
         },
         game: {
-          bet: 8,
+          bet: 1,
           under: 50,
           payrate: 0,
           payout: 0,
