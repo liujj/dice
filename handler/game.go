@@ -33,7 +33,7 @@ func Start(c echo.Context) (err error) {
 	}
 	sess.Values["ak"] = ak
 	sess.Save(c.Request(), c.Response())
-	return c.Redirect(302,"/static/index.html")
+	return c.Redirect(302, "/static/index.html")
 }
 
 func Roll(c echo.Context) (err error) {
@@ -51,11 +51,10 @@ func Roll(c echo.Context) (err error) {
 	betFloat, err := strconv.ParseFloat(bet, 32)
 
 	r := model.MakeRoll(k, float64(betFloat), uint8(underInt))
-	DataResponse(c, http.StatusOK, 0, "ok", struct {
+	return DataResponse(c, http.StatusOK, 0, "ok", struct {
 		K *model.Key  `json:"k"`
 		R *model.Roll `json:"r"`
 	}{k, r})
-	return nil
 }
 
 func Status(c echo.Context) (err error) {
@@ -67,10 +66,12 @@ func Status(c echo.Context) (err error) {
 		return SimpleResponse(c, 404, -1, "internal error")
 	}
 
-	DataResponse(c, http.StatusOK, 0, "ok", struct {
-		K *model.Key `json:"k"`
-	}{k})
-	return nil
+	rs := k.GetHistory(0, 25)
+
+	return DataResponse(c, http.StatusOK, 0, "ok", struct {
+		K  *model.Key   `json:"k"`
+		Rs []model.Roll `json:"rs"`
+	}{k, rs})
 }
 
 func LastRecord(c echo.Context) (err error) {

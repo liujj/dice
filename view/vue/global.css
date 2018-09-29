@@ -11096,8 +11096,8 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 
 .game-container {
-    max-width: 655px;
-    margin: 60px auto 20px;
+    max-width: 800px;
+    margin: 60px auto 10px;
     display: flex;
     flex-direction: column;
     width: 100%;

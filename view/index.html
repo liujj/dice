@@ -7,80 +7,108 @@
   <link rel="stylesheet" href="/static/vue/global.css">
 </head>
 <body>
-<div id="app">
-  <div class="game">
-    <div class="game-container w-90">
-      <div class="d-flex flex-wrap p-20">
-        <div class="d-flex flex-column col-12 col-600-6">
-          <span class="game-small">Account Name</span>
-          <div class="game-container-top-profit-wrapper" @click="accountInfo">
-            <div class="game-container-top-profit-amount">{{account.name}}</div>
-          </div>
-        </div>
-        <div class="d-flex flex-column mt-20 mt-600-0 col-600-6">
-          <span class="game-small">Account Balance</span>
-          <div class="game-container-top-profit-wrapper">
-            <div class="game-container-top-profit-amount" :style="colorStyle">{{account.balanceShow|demicalFix4}}</div>
-          </div>
+<div id="app" class="game">
+  <div class="game-container w-90">
+    <div class="d-flex flex-wrap p-20">
+      <div class="d-flex flex-column col-12 col-600-6">
+        <span class="game-small">Account Name</span>
+        <div class="game-container-top-profit-wrapper" @click="accountInfo">
+          <div class="game-container-top-profit-amount">{{account.name}}</div>
         </div>
       </div>
-      <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="!account.vaild">
-        <span style="margin: 0 auto;">This account is marked INVAILD !</span>
-      </div>
-      <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.lock">
-        <span style="margin: 0 auto;">This account is BANKRUPTED at {{account.bankrupt_at}}!</span>
-      </div>
-      <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
-        <div class="d-flex flex-column col-12">
-          <span class="game-small">Bet Amount</span>
-          <div class="game-container-top-amount-input-wrapper">
-            <input class="game-container-top-amount-input ng-pristine ng-valid ng-touched" type="number" v-model="game.bet"/>
-            <button class="game-container-top-amount-input-btn" @click="betHalf"><span class="game-small">1/2</span></button>
-            <button class="game-container-top-amount-input-btn with-side" @click="betDouble"><span class="game-small">2X</span></button>
-            <button class="game-container-top-amount-input-btn with-side" @click="betAllin"><span class="game-small">ALLIN</span></button>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
-        <div class="slider-wrapper">
-          <span>0</span>
-          <el-slider class="slider" v-model="game.under" :min="0" :max="99"></el-slider>
-          <span>99</span>
-        </div>
-        <span v-if="roll.show" :style="{textAlign:'center',width:'24px',position: 'absolute',left:this.roll.cssLeft+'px',top:this.roll.cssTop+'px'}"><span :style="colorStyle">{{roll.random}}</span></span>
-      </div>
-      <div class="d-flex pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
-        <div class="col-12">
-          <div class="game-container-middle-wrapper">
-            <div class="game-container-middle-roll">
-              <span class="game-small d-none d-sm-block">Roll Under To Win</span>
-              <span class="game-small d-block d-sm-none">Roll Under</span>
-              <div class="game-container-middle-roll-value-wrapper">
-                <span class="game-container-middle-roll-value"> {{game.under}}↓ </span>
-              </div>
-            </div>
-            <hr class="game-container-middle-hr">
-            <div class="game-container-middle-payout">
-              <span class="game-small">Payout</span><span class="game-container-middle-payout-input"> {{game.payrate|demicalFix2}}x </span>
-            </div>
-            <hr class="game-container-middle-hr">
-            <div class="game-container-middle-chance">
-              <span class="game-small">PAYOUT ON WIN</span><span class="game-container-middle-chance-input"> {{game.payout|demicalFix4}} </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="game-container-bottom justify-content-around flex-wrap" v-if="account.vaild&&!account.lock">
-        <div class="col-12 mt-3 mt-sm-0 w-100">
-          <button class="btn btn-lg" @click="makeRoll" :disabled="this.roll.show||this.loading" :style="colorStyleBtn">Roll</button>
+      <div class="d-flex flex-column mt-20 mt-600-0 col-600-6">
+        <span class="game-small">Account Balance</span>
+        <div class="game-container-top-profit-wrapper">
+          <div class="game-container-top-profit-amount" :style="colorStyle">{{account.balanceShow|demicalFix4}}</div>
         </div>
       </div>
     </div>
-
+    <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="!account.vaild">
+      <span style="margin: 0 auto;">This account is marked INVAILD !</span>
+    </div>
+    <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.lock">
+      <span style="margin: 0 auto;">This account is BANKRUPTED at {{account.bankrupt_at}}!</span>
+    </div>
+    <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
+      <div class="d-flex flex-column col-12">
+        <span class="game-small">Bet Amount</span>
+        <div class="game-container-top-amount-input-wrapper">
+          <input class="game-container-top-amount-input ng-pristine ng-valid ng-touched" type="number" v-model="game.bet"/>
+          <button class="game-container-top-amount-input-btn" @click="betHalf"><span class="game-small">1/2</span></button>
+          <button class="game-container-top-amount-input-btn with-side" @click="betDouble"><span class="game-small">2X</span></button>
+          <button class="game-container-top-amount-input-btn with-side" @click="betAllin"><span class="game-small">ALLIN</span></button>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
+      <div class="slider-wrapper">
+        <span>0</span>
+        <el-slider class="slider" v-model="game.under" :min="0" :max="99"></el-slider>
+        <span>99</span>
+      </div>
+      <span v-if="roll.show" :style="{textAlign:'center',width:'24px',position: 'absolute',left:this.roll.cssLeft+'px',top:this.roll.cssTop+'px'}"><span :style="colorStyle">{{roll.random}}</span></span>
+    </div>
+    <div class="d-flex pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
+      <div class="col-12">
+        <div class="game-container-middle-wrapper">
+          <div class="game-container-middle-roll">
+            <span class="game-small d-none d-sm-block">Roll Under To Win</span>
+            <span class="game-small d-block d-sm-none">Roll Under</span>
+            <div class="game-container-middle-roll-value-wrapper">
+              <span class="game-container-middle-roll-value"> {{game.under}}↓ </span>
+            </div>
+          </div>
+          <hr class="game-container-middle-hr">
+          <div class="game-container-middle-payout">
+            <span class="game-small">Payout</span><span class="game-container-middle-payout-input"> {{game.payrate|demicalFix2}}x </span>
+          </div>
+          <hr class="game-container-middle-hr">
+          <div class="game-container-middle-chance">
+            <span class="game-small">PAYOUT ON WIN</span><span class="game-container-middle-chance-input"> {{game.payout|demicalFix4}} </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="game-container-bottom justify-content-around flex-wrap" v-if="account.vaild&&!account.lock">
+      <div class="col-12 mt-3 mt-sm-0 w-100">
+        <button class="btn btn-lg" @click="makeRoll" :disabled="this.roll.show||this.loading" :style="colorStyleBtn">ROLL</button>
+      </div>
+    </div>
   </div>
+  <el-table :data="table" style="max-width:1000px;min-width:300px;width:70%;margin:30px auto;" :row-style="{backgroundColor:'#333'}">
+    <el-table-column prop="roll_time" label="TIME" width="">
+    </el-table-column>
+    <el-table-column prop="bet" label="BET" width="100">
+    </el-table-column>
+    <el-table-column prop="roll_under" label="UNDER" width="100">
+    </el-table-column>
+    <el-table-column label="RANDOM" width="100">
+      <template slot-scope="scope">
+        <span :style="{color:(scope.row.result?'#6be42f!important':'#ff3e3e!important')}">{{scope.row.roll_random}}</span>
+      </template>
+    </el-table-column>
+    <el-table-column label="BEFORE" width="150">
+      <template slot-scope="scope">
+        <span>{{scope.row.before|demicalFix4}}</span>
+      </template>
+    </el-table-column>
+    <el-table-column label="AFTER" width="150">
+      <template slot-scope="scope">
+        <span :style="{color:(scope.row.result?'#6be42f!important':'#ff3e3e!important')}">{{scope.row.after|demicalFix4}}</span>
+      </template>
+    </el-table-column>
+  </el-table>
 </div>
 </body>
 <style>
+  .el-table, .el-table th, .el-table tr {
+    background-color: unset;
+  }
+
+  .el-table--enable-row-hover .el-table__body tr:hover > td {
+    background-color: #555;
+  }
+
   .slider {
     width: 100%;
     height: 10px;
@@ -103,7 +131,7 @@
     box-shadow: 0 0 20px #dd6161;
   }
 </style>
-<script src="/static/vue/vue.min.js"></script>
+<script src="/static/vue/vue.js"></script>
 <script src="/static/vue/components/vue-resource.min.js"></script>
 <script src="/static/vue/global.js"></script>
 <script src="/static/vue/element/element-ui.js"></script>
@@ -138,8 +166,8 @@
           result: false,
           random: 0,
           show: false,
-          timer: null,
         },
+        table: [],
         loading: false,
       }
     },
@@ -196,6 +224,7 @@
             d => {
               this.refreshData(this.game.under)
               this.setKey(d.k)
+              this.table = d.rs
             }, (err) => this.$message.error(err)
         );
       },
@@ -259,6 +288,10 @@
         let dom = document.getElementsByClassName('el-slider')[0]
         this.roll.cssLeft = dom.offsetLeft - 12 + dom.offsetWidth * r.roll_random / 100
         this.roll.cssTop = dom.offsetTop + 20
+        this.table.unshift(r)
+        if (this.table.length > 25) {
+            this.table.pop()
+        }
         this.showResult()
       },
       showResult: function () {
@@ -304,7 +337,6 @@
         for (let v = oldVal, i = 0; i < 7; v += diff, i++) {
           setTimeout(function () {
             that.account.balanceShow = v
-            console.log(v)
           }, i * 100)
         }
         setTimeout(function () {

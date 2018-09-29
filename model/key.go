@@ -160,3 +160,9 @@ func ClearKeyCache() {
 	KC.Map = make(map[string]*Key)
 	KC.Mutex.Unlock()
 }
+
+func (k *Key) GetHistory(fromLast, step int) []Roll {
+	var rs []Roll
+	Gdb.Where("key = ?", k.Ak).Limit(step).Offset(fromLast).Order("id DESC").Find(&rs)
+	return rs
+}
