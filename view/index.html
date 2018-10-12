@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>老虎机</title>
+  <title>BET</title>
   <link rel="stylesheet" href="/static/vue/element/element-ui.css">
   <link rel="stylesheet" href="/static/vue/global.css">
 </head>
@@ -137,12 +137,11 @@
     box-shadow: 0 0 20px #dd6161;
   }
 </style>
-<script src="/static/vue/vue.js"></script>
+<script src="/static/vue/vue.min.js"></script>
 <script src="/static/vue/components/vue-resource.min.js"></script>
 <script src="/static/vue/global.js"></script>
 <script src="/static/vue/element/element-ui.js"></script>
 <script>
-  //默认application/json;改为x-www-form-urlencoded
   Vue.http.options.emulateJSON = true;
   let vm;
   vm = new Vue({
@@ -210,13 +209,13 @@
     },
     methods: {
       betHalf: function () {
-        this.game.bet *= 0.5;
+        this.game.bet *= 0.5
         if (this.game.bet < 1) {
           this.game.bet = 1
         }
       },
       betDouble: function () {
-        this.game.bet *= 2;
+        this.game.bet *= 2
         if (this.game.bet > this.account.balance) {
           this.game.bet = this.account.balance
         }
@@ -225,8 +224,8 @@
         this.game.bet = this.account.balance
       },
       refreshData: function (under) {
-        this.game.payrate = 100 / under;
-        this.game.payout = this.game.bet * 98.5 / under;
+        this.game.payrate = 100 / under
+        this.game.payout = this.game.bet * 98.5 / under
       },
       initQuery: function () {
         this.fetch('/status').then(
@@ -235,7 +234,7 @@
               this.setKey(d.k)
               this.table = d.rs
             }, (err) => this.$message.error(err)
-        );
+        )
       },
       setKey: function (k) {
         if (k.vaild === false) {
@@ -254,7 +253,7 @@
           this.game.bet = this.game.balance
         }
         if (k.bankrupt_at !== null) {
-          this.game.payout = 0;
+          this.game.payout = 0
           this.account.lock = true
         }
       },
@@ -266,13 +265,13 @@
         this.$alert('Create At：' + this.account.create_at + '<br/>Rounds：' + this.account.tx_count + '<br/>Peak Balance：' + this.account.peak + '<br/>Is Bankrupted：' + bankrupptInfo, 'Account Info', {
           confirmButtonText: 'Confirm',
           dangerouslyUseHTMLString: true,
-        });
+        })
       },
       makeRoll: function () {
         if (this.game.bet > this.account.balance || this.game.bet < 1) {
-          this.$alert('Balance must between 1 and your balance', 'Roll Failed', {
+          this.$alert('Bet Amount must between 1 and your balance', 'Roll Failed', {
             confirmButtonText: 'Confirm',
-          });
+          })
           return
         }
         if (this.loading) {
@@ -289,7 +288,7 @@
         if (r === null) {
           this.$alert('Please Check If AnyThing was WRONG', 'Roll Failed', {
             confirmButtonText: 'Confirm',
-          });
+          })
           return
         }
         this.roll.random = r.roll_random
@@ -311,21 +310,21 @@
       },
       get: function ($url) {
         return new Promise((resolve, reject) => {
-          this.$http.get($url).then(res => resolve(res), res => reject(res));
-        });
+          this.$http.get($url).then(res => resolve(res), res => reject(res))
+        })
       },
       fetch: function ($url) {
         return new Promise((resolve, reject) => {
           this.get($url).then(res => {
             if (res.data.code === 0) {
-              resolve(res.data.data);
+              resolve(res.data.data)
             } else if (res.data.msg) {
               reject(res.data.code + '-' + res.data.msg)
             } else {
               reject(res.data.code)
             }
           }).catch(res => reject(res.status))
-        });
+        })
       },
     },
     mounted: function () {
@@ -336,10 +335,10 @@
           this.game.under = 2
         }
         this.refreshData(newVal)
-      });
+      })
       this.$watch("game.bet", function (newVal, oldVal) {
         this.refreshData(this.game.under)
-      });
+      })
       this.$watch("account.balance", function (newVal, oldVal) {
         let diff = (newVal - oldVal) / 7
         let that = this
@@ -351,8 +350,8 @@
         setTimeout(function () {
           that.account.balanceShow = newVal
         }, 700)
-      });
-      this.initQuery();
+      })
+      this.initQuery()
     }
   });
 </script>
