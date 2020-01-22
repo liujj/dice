@@ -8,5 +8,6 @@
 /bin
 /out
 /log
+/package
 /vendor
 /config/config.*.json

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>BET</title>
-  <link rel="stylesheet" href="/static/vue/element/element-ui.css">
-  <link rel="stylesheet" href="/static/vue/global.css">
+  <link rel="stylesheet" href="/static/element/element-ui.css">
+  <link rel="stylesheet" href="/static/global/global.css">
 </head>
 <body>
 <div id="app" class="game">
@@ -139,8 +139,8 @@
 </style>
 <script src="/static/vue/vue.min.js"></script>
 <script src="/static/vue/components/vue-resource.min.js"></script>
-<script src="/static/vue/global.js"></script>
-<script src="/static/vue/element/element-ui.js"></script>
+<script src="/static/global/global.js"></script>
+<script src="/static/element/element-ui.js"></script>
 <script>
   Vue.http.options.emulateJSON = true;
   let vm;
@@ -229,11 +229,11 @@
       },
       initQuery: function () {
         this.fetch('/status').then(
-            d => {
-              this.refreshData(this.game.under)
-              this.setKey(d.k)
-              this.table = d.rs
-            }, (err) => this.$message.error(err)
+                d => {
+                  this.refreshData(this.game.under)
+                  this.setKey(d.k)
+                  this.table = d.rs
+                }, (err) => this.$message.error(err)
         )
       },
       setKey: function (k) {
@@ -279,10 +279,10 @@
         }
         this.loading = true
         this.fetch('/roll?bet=' + this.game.bet + '&under=' + this.game.under).then(
-            d => {
-              this.setKey(d.k)
-              this.setRoll(d.r)
-            }).catch((err) => this.$message.error(err)).finally(() => this.loading = false)
+                d => {
+                  this.setKey(d.k)
+                  this.setRoll(d.r)
+                }).catch((err) => this.$message.error(err)).finally(() => this.loading = false)
       },
       setRoll: function (r) {
         if (r === null) {
@@ -306,7 +306,7 @@
         this.roll.show = true
         setTimeout(function () {
           this.roll.show = false
-        }.bind(this), 3500)
+        }.bind(this), 2000)
       },
       get: function ($url) {
         return new Promise((resolve, reject) => {
@@ -315,7 +315,7 @@
       },
       fetch: function ($url) {
         return new Promise((resolve, reject) => {
-          this.get($url).then(res => {
+          this.get("/api"+$url).then(res => {
             if (res.data.code === 0) {
               resolve(res.data.data)
             } else if (res.data.msg) {

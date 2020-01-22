@@ -1,41 +1,33 @@
-LDFLAGS += -X "tigerMachine/version.BuildTime=$(shell date "+%Y-%m-%d %T %Z")"
-LDFLAGS += -X "tigerMachine/version.GitCommit=$(shell git rev-parse HEAD)"
-OS := $(shell uname -s).$(shell uname -m)
-GOVET = go tool vet -composites=false -methods=false -structtags=false
-GOFMT ?= gofmt "-s"
-GOFILES := $(shell find . -name "*.go" -type f -not -path "./vendor/*")
-PACK_FILE = blockchain_coinsbook
-NOW = $(shell date -u '+%Y%m%d%I%M%S')
-.PHONY: build pack clean out
+APPNAME = dice
+TAG = $(shell git describe --tags `git rev-list --tags --max-count=1`)
+LDFLAGS += -X "pkg/dice/version.BuildTime=$(shell date "+%Y-%m-%d %T %Z")"
+LDFLAGS += -X "pkg/dice/version.GitCommit=$(shell git rev-parse HEAD)"
+LDFLAGS += -X "pkg/dice/version.LatestTag=$(TAG)"
+
+all: linux out package clean
 
 
-all: build out pack clean
 
-build:
-	@go build -ldflags '$(LDFLAGS)' -o ./bin/tm_app ./main.go
-	@go build -ldflags '$(LDFLAGS)' -o ./bin/tm_launcher ./launcher/main.go
 
+.PHONY: linux
+linux:
+	GOOS=linux go build -ldflags '$(LDFLAGS)' -o ./bin/$(APPNAME) ./cmd/main.go
+
+.PHONY: out
 out:
 	@if [ -e out ] ; then rm -rf out ; fi
 	@mkdir out
-	@cp ./bin/tm_app ./out
-	@cp ./bin/tm_launcher ./out
+	@cp ./bin/$(APPNAME) ./out
 	@cp ./config/config.json ./out
 	@cp -r ./view ./out
 
-pack:
-	@if [ ! -e /opt/app/tigerMachine ] ; then mkdir /opt/app/tigerMachine ; fi
-	@rm -rf /opt/app/tigerMachine/view
-	@mv ./out/* /opt/app/tigerMachine
+.PHONY: package
+package:
+	@if [ -e package ] ; then rm -rf package ; fi
+	@mkdir package
+	@cd ./out && tar -zcf ../package/$(APPNAME).$(TAG).tar.gz ./*
 
+.PHONY: clean
 clean:
 	@rm -rf ./bin
 	@rm -rf ./out
-	@go clean
-
-cleanp:
-	clean
-	@rm -f $(PACK_FILE).tar.gz
-
-fmt:
-	@$(GOFMT) -w $(GOFILES)
