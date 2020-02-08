@@ -6,8 +6,17 @@ LDFLAGS += -X "pkg/dice/version.LatestTag=$(TAG)"
 
 all: linux out package clean
 
+.PHONY: depend
+depend:
+	go get github.com/rakyll/statik
 
+.PHONY: statik
+statik:
+	statik -src=./view -dest=./pkg
 
+.PHONY: local
+local: statik
+	go build -ldflags '$(LDFLAGS)' -o ./bin/$(APPNAME) ./cmd/main.go
 
 .PHONY: linux
 linux:
@@ -26,6 +35,11 @@ package:
 	@if [ -e package ] ; then rm -rf package ; fi
 	@mkdir package
 	@cd ./out && tar -zcf ../package/$(APPNAME).$(TAG).tar.gz ./*
+
+.PHONY: package-all
+package-all:
+	@if [ -e $(APPNAME).tar.gz ] ; then rm $(APPNAME).tar.gz ; fi
+	@cd ./out && tar -zcf ../$(APPNAME).tar.gz ./*
 
 .PHONY: clean
 clean:

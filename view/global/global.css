@@ -11089,7 +11089,6 @@ input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-
 }
 
 .game {
-    background: url(background.7418bc01c2269ba7e456.png) top left/contain;
     width: 100%;
     display: flex;
     flex-direction: column

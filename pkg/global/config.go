@@ -29,7 +29,6 @@ type GlobalConfig struct {
 	Http  *HttpConfig  `json:"http"`
 	DB    *DBConfig    `json:"db"`
 	Admin *AdminConfig `json:"admin"`
-	View  string       `json:"view"`
 }
 
 var (

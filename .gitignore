@@ -11,3 +11,4 @@
 /package
 /vendor
 /config/config.*.json
+/pkg/statik

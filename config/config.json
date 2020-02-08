@@ -9,7 +9,6 @@
     "max_idle": 10,
     "max_open": 50
   },
-  "view": "./view/",
   "admin": {
     "user": "admin",
     "pass": "whosyourdaddy"
