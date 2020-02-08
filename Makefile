@@ -16,11 +16,11 @@ statik:
 
 .PHONY: local
 local: statik
-	go build -ldflags '$(LDFLAGS)' -o ./bin/$(APPNAME) ./cmd/main.go
+	CGO_ENABLED=1 go build -ldflags '$(LDFLAGS)' -o ./bin/$(APPNAME) ./cmd/main.go
 
 .PHONY: linux
-linux:
-	GOOS=linux go build -ldflags '$(LDFLAGS)' -o ./bin/$(APPNAME) ./cmd/main.go
+linux: statik
+	CGO_ENABLED=1 GOOS=linux go build -ldflags '$(LDFLAGS)' -o ./bin/$(APPNAME) ./cmd/main.go
 
 .PHONY: out
 out:

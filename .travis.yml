@@ -1,0 +1,12 @@
+language: go
+
+go:
+- "1.x"
+
+env:
+
+before_install:
+- make depend
+
+script:
+- make local
