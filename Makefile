@@ -4,7 +4,7 @@ LDFLAGS += -X "pkg/dice/version.BuildTime=$(shell date "+%Y-%m-%d %T %Z")"
 LDFLAGS += -X "pkg/dice/version.GitCommit=$(shell git rev-parse HEAD)"
 LDFLAGS += -X "pkg/dice/version.LatestTag=$(TAG)"
 
-all: linux out package clean
+all: depend linux out package clean
 
 .PHONY: depend
 depend:

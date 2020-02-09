@@ -27,7 +27,7 @@ func MakeRoll(k *Key, bet float64, under uint8) *Roll {
 	if !k.Vaild {
 		return nil
 	}
-	if under < 1 || under > 95 {
+	if under < 2 || under > 96 {
 		return nil
 	}
 	if bet > k.Balance || bet < 1 || bet > 5000 {
