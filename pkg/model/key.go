@@ -5,13 +5,14 @@ import (
 	"fmt"
 	"strconv"
 	"sync"
-	"dice/pkg/utils"
 	"time"
+
+	"dice/pkg/utils"
 )
 
 type Key struct {
-	ID         uint         `json:"-" gorm:"primary_key"`
-	Ak         string       `json:"ak"`
+	Id uint   `json:"-" gorm:"primary_key"`
+	Ak string `json:"ak"`
 	Sk         string       `json:"sk"`
 	Balance    float64      `json:"balance"`
 	Peak       float64      `json:"peak"`
@@ -20,7 +21,6 @@ type Key struct {
 	Vaild      bool         `json:"vaild"`
 	BankruptAt *JsonTime    `json:"bankrupt_at"`
 	CreatedAt  *JsonTime    `json:"create_at"`
-	mu         sync.RWMutex `json:"-" gorm:"-"`
 }
 
 func (db *Key) TableName() string {
@@ -118,7 +118,7 @@ func SetKey(ak string, param map[string]string) error {
 
 func DelKey(ak string) error {
 	k, _ := QueryKey(ak)
-	if k == nil || k.ID == 0 {
+	if k == nil || k.Id == 0 {
 		return errors.New(fmt.Sprintf("Access Key %s is not Found", ak))
 	}
 	dbResult := Gdb.Delete(k)

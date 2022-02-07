@@ -1,26 +1,22 @@
 APPNAME = dice
 TAG = $(shell git describe --tags `git rev-list --tags --max-count=1`)
-LDFLAGS += -X "pkg/dice/version.BuildTime=$(shell date "+%Y-%m-%d %T %Z")"
-LDFLAGS += -X "pkg/dice/version.GitCommit=$(shell git rev-parse HEAD)"
-LDFLAGS += -X "pkg/dice/version.LatestTag=$(TAG)"
+LDFLAGS += -X "dice/pkg/version.BuildTime=$(shell date "+%Y-%m-%d %T %Z")"
+LDFLAGS += -X "dice/pkg/version.GitCommit=$(shell git rev-parse HEAD)"
+LDFLAGS += -X "dice/pkg/version.LatestTag=$(TAG)"
 
-all: depend linux out package clean
-
-.PHONY: depend
-depend:
-	go get github.com/rakyll/statik
-
-.PHONY: statik
-statik:
-	statik -src=./view -dest=./pkg
+all: linux out package clean
 
 .PHONY: local
-local: statik
+local:
 	CGO_ENABLED=1 go build -ldflags '$(LDFLAGS)' -o ./bin/$(APPNAME) ./cmd/main.go
 
 .PHONY: linux
-linux: statik
+linux:
 	CGO_ENABLED=1 GOOS=linux go build -ldflags '$(LDFLAGS)' -o ./bin/$(APPNAME) ./cmd/main.go
+
+.PHONY: rpi
+linux:
+	CGO_ENABLED=1 GOOS=linux GOARCH=arm64 go build -ldflags '$(LDFLAGS)' -o ./bin/$(APPNAME) ./cmd/main.go
 
 .PHONY: out
 out:
@@ -28,7 +24,7 @@ out:
 	@mkdir out
 	@cp ./bin/$(APPNAME) ./out
 	@cp ./config/config.json ./out
-	@cp -r ./view ./out
+	@cp ./db.sqlite3 ./out
 
 .PHONY: package
 package:

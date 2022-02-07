@@ -1,358 +1,362 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>DICE</title>
-  <link rel="stylesheet" href="https://unpkg.com/element-ui@2.13.0/lib/theme-chalk/index.css">
-  <link rel="stylesheet" href="/static/global/global.css">
+    <meta charset="UTF-8">
+    <title>DICE</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.13.0/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="/static/global/global.css">
 </head>
 <body>
 <div id="app" class="game">
-  <div class="game-container w-90">
-    <div class="d-flex flex-wrap p-20">
-      <div class="d-flex flex-column col-12 col-600-6">
-        <span class="game-small">Account Name</span>
-        <div class="game-container-top-profit-wrapper" @click="accountInfo">
-          <div class="game-container-top-profit-amount">{{account.name}}</div>
-        </div>
-      </div>
-      <div class="d-flex flex-column mt-20 mt-600-0 col-600-6">
-        <span class="game-small">Account Balance</span>
-        <div class="game-container-top-profit-wrapper">
-          <div class="game-container-top-profit-amount" :style="colorStyle">{{account.balanceShow|demicalFix4}}</div>
-        </div>
-      </div>
-    </div>
-    <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="!account.vaild">
-      <span style="margin: 0 auto;">This account is marked INVAILD !</span>
-    </div>
-    <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.lock">
-      <span style="margin: 0 auto;">This account is BANKRUPTED at {{account.bankrupt_at}}!</span>
-    </div>
-    <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
-      <div class="d-flex flex-column col-12">
-        <span class="game-small">Bet Amount</span>
-        <div class="game-container-top-amount-input-wrapper">
-          <input class="game-container-top-amount-input ng-pristine ng-valid ng-touched" type="number" v-model="game.bet"/>
-          <button class="game-container-top-amount-input-btn" @click="betHalf"><span class="game-small">1/2</span></button>
-          <button class="game-container-top-amount-input-btn with-side" @click="betDouble"><span class="game-small">2X</span></button>
-          <button class="game-container-top-amount-input-btn with-side" @click="betAllin"><span class="game-small">ALLIN</span></button>
-        </div>
-      </div>
-    </div>
-    <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
-      <div class="slider-wrapper">
-        <span>0</span>
-        <el-slider class="slider" v-model="game.under" :min="0" :max="99"></el-slider>
-        <span>99</span>
-      </div>
-      <span v-if="roll.show" :style="{textAlign:'center',width:'24px',position: 'absolute',left:this.roll.cssLeft+'px',top:this.roll.cssTop+'px'}"><span :style="colorStyle">{{roll.random}}</span></span>
-    </div>
-    <div class="d-flex pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
-      <div class="col-12">
-        <div class="game-container-middle-wrapper">
-          <div class="game-container-middle-roll">
-            <span class="game-small d-none d-sm-block">Roll Under To Win</span>
-            <span class="game-small d-block d-sm-none">Roll Under</span>
-            <div class="game-container-middle-roll-value-wrapper">
-              <span class="game-container-middle-roll-value"> {{game.under}}↓ </span>
+    <div class="game-container w-90">
+        <div class="d-flex flex-wrap p-20">
+            <div class="d-flex flex-column col-12 col-600-6">
+                <span class="game-small">Account Name</span>
+                <div class="game-container-top-profit-wrapper" @click="accountInfo">
+                    <div class="game-container-top-profit-amount">{{account.name}}</div>
+                </div>
             </div>
-          </div>
-          <hr class="game-container-middle-hr">
-          <div class="game-container-middle-payout">
-            <span class="game-small">Payout</span><span class="game-container-middle-payout-input"> {{game.payrate|demicalFix2}}x </span>
-          </div>
-          <hr class="game-container-middle-hr">
-          <div class="game-container-middle-chance">
-            <span class="game-small">PAYOUT ON WIN</span><span class="game-container-middle-chance-input"> {{game.payout|demicalFix4}} </span>
-          </div>
+            <div class="d-flex flex-column mt-20 mt-600-0 col-600-6">
+                <span class="game-small">Account Balance</span>
+                <div class="game-container-top-profit-wrapper">
+                    <div class="game-container-top-profit-amount" :style="colorStyle">{{account.balanceShow|demicalFix4}}</div>
+                </div>
+            </div>
         </div>
-      </div>
+        <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="!account.vaild">
+            <span style="margin: 0 auto;">This account is marked INVAILD !</span>
+        </div>
+        <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.lock">
+            <span style="margin: 0 auto;">This account is BANKRUPTED at {{account.bankrupt_at}}!</span>
+        </div>
+        <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
+            <div class="d-flex flex-column col-12">
+                <span class="game-small">Bet Amount</span>
+                <div class="game-container-top-amount-input-wrapper">
+                    <input class="game-container-top-amount-input ng-pristine ng-valid ng-touched" type="number" v-model="game.bet"/>
+                    <button class="game-container-top-amount-input-btn" @click="betHalf"><span class="game-small">1/2</span></button>
+                    <button class="game-container-top-amount-input-btn with-side" @click="betDouble"><span class="game-small">2X</span></button>
+                    <button class="game-container-top-amount-input-btn with-side" @click="betAllin"><span class="game-small">ALLIN</span></button>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-wrap pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
+            <div class="slider-wrapper">
+                <span>0</span>
+                <el-slider class="slider" v-model="game.under" :min="0" :max="99"></el-slider>
+                <span>99</span>
+            </div>
+            <span v-if="roll.show" :style="{textAlign:'center',width:'24px',position: 'absolute',left:this.roll.cssLeft+'px',top:this.roll.cssTop+'px'}"><span :style="colorStyle">{{roll.random}}</span></span>
+        </div>
+        <div class="d-flex pl-20 pr-20 pb-20" v-if="account.vaild&&!account.lock">
+            <div class="col-12">
+                <div class="game-container-middle-wrapper">
+                    <div class="game-container-middle-roll">
+                        <span class="game-small d-none d-sm-block">Roll Under To Win</span>
+                        <span class="game-small d-block d-sm-none">Roll Under</span>
+                        <div class="game-container-middle-roll-value-wrapper">
+                            <span class="game-container-middle-roll-value"> {{game.under}}↓ </span>
+                        </div>
+                    </div>
+                    <hr class="game-container-middle-hr">
+                    <div class="game-container-middle-payout">
+                        <span class="game-small">Payout</span><span class="game-container-middle-payout-input"> {{game.payrate|demicalFix2}}x </span>
+                    </div>
+                    <hr class="game-container-middle-hr">
+                    <div class="game-container-middle-chance">
+                        <span class="game-small">PAYOUT ON WIN</span><span class="game-container-middle-chance-input"> {{game.payout|demicalFix4}} </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="game-container-bottom justify-content-around flex-wrap" v-if="account.vaild&&!account.lock">
+            <div class="col-12 mt-3 mt-sm-0 w-100">
+                <button class="btn btn-lg" @click="makeRoll" :disabled="this.roll.show||this.loading" :style="colorStyleBtn">ROLL</button>
+            </div>
+        </div>
     </div>
-    <div class="game-container-bottom justify-content-around flex-wrap" v-if="account.vaild&&!account.lock">
-      <div class="col-12 mt-3 mt-sm-0 w-100">
-        <button class="btn btn-lg" @click="makeRoll" :disabled="this.roll.show||this.loading" :style="colorStyleBtn">ROLL</button>
-      </div>
-    </div>
-  </div>
-  <el-table :data="table" style="max-width:1000px;min-width:300px;width:70%;margin:30px auto;" :row-style="{backgroundColor:'#333'}">
-    <el-table-column prop="roll_time" label="TIME" width="">
-    </el-table-column>
-    <el-table-column prop="bet" label="BET" width="70">
-    </el-table-column>
-    <el-table-column prop="roll_under" label="UNDER" width="80">
-    </el-table-column>
-    <el-table-column label="RANDOM" width="85">
-      <template slot-scope="scope">
-        <span :style="{color:(scope.row.result?'#6be42f!important':'#ff3e3e!important')}">{{scope.row.roll_random}}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="BEFORE" width="120">
-      <template slot-scope="scope">
-        <span>{{scope.row.before|demicalFix4}}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="CHANGE" width="120">
-      <template slot-scope="scope">
-        <span v-if="scope.row.result" :style="{color:'#6be42f!important'}">+{{scope.row.payout|minus(scope.row.bet)|demicalFix4}}</span>
-        <span v-if="!scope.row.result" :style="{color:'#ff3e3e!important'}">-{{scope.row.bet|demicalFix4}}</span>
-      </template>
-    </el-table-column>
-    <el-table-column label="AFTER" width="120">
-      <template slot-scope="scope">
-        <span :style="{color:(scope.row.result?'#6be42f!important':'#ff3e3e!important')}">{{scope.row.after|demicalFix4}}</span>
-      </template>
-    </el-table-column>
-  </el-table>
+    <el-table :data="table" style="max-width:1000px;min-width:300px;width:80%;margin:30px auto;" :row-style="{backgroundColor:'#333'}">
+        <el-table-column prop="roll_time" label="TIME" min-width="230">
+        </el-table-column>
+        <el-table-column prop="bet" label="BET" width="70">
+        </el-table-column>
+        <el-table-column prop="roll_under" label="UNDER" width="80">
+        </el-table-column>
+        <el-table-column label="RAND" width="80">
+            <template slot-scope="scope">
+                <span :style="{color:(scope.row.result?'#6be42f!important':'#ff3e3e!important')}">{{scope.row.roll_random}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="BEFORE" width="100">
+            <template slot-scope="scope">
+                <span>{{scope.row.before|demicalFix4}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="CHANGE" width="100">
+            <template slot-scope="scope">
+                <span v-if="scope.row.result" :style="{color:'#6be42f!important'}">+{{scope.row.payout|minus(scope.row.bet)|demicalFix4}}</span>
+                <span v-if="!scope.row.result" :style="{color:'#ff3e3e!important'}">-{{scope.row.bet|demicalFix4}}</span>
+            </template>
+        </el-table-column>
+        <el-table-column label="AFTER" width="100">
+            <template slot-scope="scope">
+                <span :style="{color:(scope.row.result?'#6be42f!important':'#ff3e3e!important')}">{{scope.row.after|demicalFix4}}</span>
+            </template>
+        </el-table-column>
+    </el-table>
 </div>
 </body>
 <style>
-  .el-table, .el-table th, .el-table tr {
-    background-color: unset;
-  }
-
-  .el-table--enable-row-hover .el-table__body tr:hover > td {
-    background-color: #555;
-  }
-
-  .slider {
-    width: 100%;
-    height: 10px;
-    border-radius: 5px;
-    border: none;
-  }
-
-  .el-message-box {
-    background-color: #555555;
-  }
-
-  .el-slider__bar {
-    background-color: #5daf34;
-    box-shadow: 0 0 20px #5daf34;
-  }
-
-  .el-slider__runway {
-    margin: 2px 0;
-    background-color: #dd6161;
-    box-shadow: 0 0 20px #dd6161;
-  }
-</style>
-<script src="https://unpkg.com/vue@2.6.11/dist/vue.min.js"></script>
-<script src="https://unpkg.com/vue-resource@1.5.1/dist/vue-resource.min.js"></script>
-<script src="/static/global/global.js"></script>
-<script src="https://unpkg.com/element-ui@2.13.0/lib/index.js"></script>
-<script>
-  Vue.http.options.emulateJSON = true;
-  let vm;
-  vm = new Vue({
-    el: '#app',
-    data: function () {
-      return {
-        account: {
-          name: "",
-          balance: 0,
-          balanceShow: 0,
-          lock: true,
-          peak: 0,
-          create_at: "",
-          vaild: false,
-          tx_count: 0,
-          bankrupt_at: false,
-        },
-        game: {
-          bet: 1,
-          under: 50,
-          payrate: 0,
-          payout: 0,
-        },
-        roll: {
-          cssLeft: 0,
-          cssTop: 0,
-          result: false,
-          random: 0,
-          show: false,
-        },
-        table: [],
-        loading: false,
-      }
-    },
-    filters: {
-      minus: function (a, b) {
-        return a - b
-      },
-      demicalFix2: function (val) {
-        return Math.round(val * 100) / 100
-      },
-      demicalFix4: function (val) {
-        return Math.round(val * 10000) / 10000
-      },
-    },
-    computed: {
-      colorStyle() {
-        if (this.roll.show && this.roll.result) {
-          return {color: '#6be42f!important'}
-        } else if (this.roll.show && !this.roll.result) {
-          return {color: '#ff3e3e!important'}
-        } else return {}
-      },
-      colorStyleBtn() {
-        if (this.loading) {
-          return {backgroundColor: '#9b9b9b', borderColor: '#9b9b9b'}
-        } else if (this.roll.show && this.roll.result) {
-          return {backgroundColor: '#6be42f', borderColor: '#6be42f'}
-        } else if (this.roll.show && !this.roll.result) {
-          return {backgroundColor: '#ff3e3e', borderColor: '#ff3e3e'}
-        } else {
-          return {backgroundColor: '#0191ee', borderColor: '#0191ee'}
-        }
-      },
-    },
-    methods: {
-      betHalf: function () {
-        this.game.bet *= 0.5
-        if (this.game.bet < 1) {
-          this.game.bet = 1
-        }
-      },
-      betDouble: function () {
-        this.game.bet *= 2
-        if (this.game.bet > this.account.balance) {
-          this.game.bet = this.account.balance
-        }
-      },
-      betAllin: function () {
-        this.game.bet = this.account.balance
-      },
-      refreshData: function (under) {
-        this.game.payrate = 100 / under
-        this.game.payout = this.game.bet * 98.5 / under
-      },
-      initQuery: function () {
-        this.fetch('/status').then(
-                d => {
-                  this.refreshData(this.game.under)
-                  this.setKey(d.k)
-                  this.table = d.rs
-                }, (err) => this.$message.error(err)
-        )
-      },
-      setKey: function (k) {
-        if (k.vaild === false) {
-          this.account.lock = true
-          return
-        }
-        this.account.name = k.ak
-        this.account.vaild = k.vaild
-        this.account.balance = k.balance
-        this.account.bankrupt_at = k.bankrupt_at
-        this.account.create_at = k.create_at
-        this.account.tx_count = k.tx_count
-        this.account.peak = k.peak
-        this.account.lock = false
-        if (this.game.bet < this.game.balance) {
-          this.game.bet = this.game.balance
-        }
-        if (k.bankrupt_at !== null) {
-          this.game.payout = 0
-          this.account.lock = true
-        }
-      },
-      accountInfo() {
-        let bankrupptInfo = this.account.bankrupt_at
-        if (bankrupptInfo === null) {
-          bankrupptInfo = "No"
-        }
-        this.$alert('Create At：' + this.account.create_at + '<br/>Rounds：' + this.account.tx_count + '<br/>Peak Balance：' + this.account.peak + '<br/>Is Bankrupted：' + bankrupptInfo, 'Account Info', {
-          confirmButtonText: 'Confirm',
-          dangerouslyUseHTMLString: true,
-        })
-      },
-      makeRoll: function () {
-        if (this.game.bet > this.account.balance || this.game.bet < 1) {
-          this.$alert('Bet Amount must between 1 and your balance', 'Roll Failed', {
-            confirmButtonText: 'Confirm',
-          })
-          return
-        }
-        if (this.loading) {
-          return
-        }
-        this.loading = true
-        this.fetch('/roll?bet=' + this.game.bet + '&under=' + this.game.under).then(
-                d => {
-                  this.setKey(d.k)
-                  this.setRoll(d.r)
-                }).catch((err) => this.$message.error(err)).finally(() => this.loading = false)
-      },
-      setRoll: function (r) {
-        if (r === null) {
-          this.$alert('Please Check If AnyThing was WRONG', 'Roll Failed', {
-            confirmButtonText: 'Confirm',
-          })
-          return
-        }
-        this.roll.random = r.roll_random
-        this.roll.result = r.result
-        let dom = document.getElementsByClassName('el-slider')[0]
-        this.roll.cssLeft = dom.offsetLeft - 12 + dom.offsetWidth * r.roll_random / 100
-        this.roll.cssTop = dom.offsetTop + 20
-        this.table.unshift(r)
-        if (this.table.length > 25) {
-          this.table.pop()
-        }
-        this.showResult()
-      },
-      showResult: function () {
-        this.roll.show = true
-        setTimeout(function () {
-          this.roll.show = false
-        }.bind(this), 2000)
-      },
-      get: function ($url) {
-        return new Promise((resolve, reject) => {
-          this.$http.get($url).then(res => resolve(res), res => reject(res))
-        })
-      },
-      fetch: function ($url) {
-        return new Promise((resolve, reject) => {
-          this.get("/api"+$url).then(res => {
-            if (res.data.code === 0) {
-              resolve(res.data.data)
-            } else if (res.data.msg) {
-              reject(res.data.code + '-' + res.data.msg)
-            } else {
-              reject(res.data.code)
-            }
-          }).catch(res => reject(res.status))
-        })
-      },
-    },
-    mounted: function () {
-      this.$watch("game.under", function (newVal, oldVal) {
-        if (newVal > 95) {
-          this.game.under = 95
-        } else if (newVal < 2) {
-          this.game.under = 2
-        }
-        this.refreshData(newVal)
-      })
-      this.$watch("game.bet", function (newVal, oldVal) {
-        this.refreshData(this.game.under)
-      })
-      this.$watch("account.balance", function (newVal, oldVal) {
-        let diff = (newVal - oldVal) / 7
-        let that = this
-        for (let v = oldVal, i = 0; i < 7; v += diff, i++) {
-          setTimeout(function () {
-            that.account.balanceShow = v
-          }, i * 100)
-        }
-        setTimeout(function () {
-          that.account.balanceShow = newVal
-        }, 700)
-      })
-      this.initQuery()
+    .el-table, .el-table th, .el-table tr {
+        background-color: unset;
     }
-  });
+
+    .el-table--enable-row-hover .el-table__body tr:hover > td {
+        background-color: #555;
+    }
+
+    .el-table__body tr.current-row > td {
+        background-color: #787878;
+    }
+
+    .slider {
+        width: 100%;
+        height: 10px;
+        border-radius: 5px;
+        border: none;
+    }
+
+    .el-message-box {
+        background-color: #555555;
+    }
+
+    .el-slider__bar {
+        background-color: #5daf34;
+        box-shadow: 0 0 20px #5daf34;
+    }
+
+    .el-slider__runway {
+        margin: 2px 0;
+        background-color: #dd6161;
+        box-shadow: 0 0 20px #dd6161;
+    }
+</style>
+<script src="https://unpkg.com/vue@2.6.14/dist/vue.min.js"></script>
+<script src="https://unpkg.com/vue-resource@1.5.3/dist/vue-resource.min.js"></script>
+<script src="/static/global/global.js"></script>
+<script src="https://unpkg.com/element-ui@2.15.6/lib/index.js"></script>
+<script>
+    Vue.http.options.emulateJSON = true;
+    let vm;
+    vm = new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                account: {
+                    name: "",
+                    balance: 0,
+                    balanceShow: 0,
+                    lock: true,
+                    peak: 0,
+                    create_at: "",
+                    vaild: false,
+                    tx_count: 0,
+                    bankrupt_at: false,
+                },
+                game: {
+                    bet: 1,
+                    under: 50,
+                    payrate: 0,
+                    payout: 0,
+                },
+                roll: {
+                    cssLeft: 0,
+                    cssTop: 0,
+                    result: false,
+                    random: 0,
+                    show: false,
+                },
+                table: [],
+                loading: false,
+            }
+        },
+        filters: {
+            minus: function (a, b) {
+                return a - b
+            },
+            demicalFix2: function (val) {
+                return Math.round(val * 100) / 100
+            },
+            demicalFix4: function (val) {
+                return Math.round(val * 10000) / 10000
+            },
+        },
+        computed: {
+            colorStyle() {
+                if (this.roll.show && this.roll.result) {
+                    return {color: '#6be42f!important'}
+                } else if (this.roll.show && !this.roll.result) {
+                    return {color: '#ff3e3e!important'}
+                } else return {}
+            },
+            colorStyleBtn() {
+                if (this.loading) {
+                    return {backgroundColor: '#9b9b9b', borderColor: '#9b9b9b'}
+                } else if (this.roll.show && this.roll.result) {
+                    return {backgroundColor: '#6be42f', borderColor: '#6be42f'}
+                } else if (this.roll.show && !this.roll.result) {
+                    return {backgroundColor: '#ff3e3e', borderColor: '#ff3e3e'}
+                } else {
+                    return {backgroundColor: '#0191ee', borderColor: '#0191ee'}
+                }
+            },
+        },
+        methods: {
+            betHalf: function () {
+                this.game.bet *= 0.5
+                if (this.game.bet < 1) {
+                    this.game.bet = 1
+                }
+            },
+            betDouble: function () {
+                this.game.bet *= 2
+                if (this.game.bet > this.account.balance) {
+                    this.game.bet = this.account.balance
+                }
+            },
+            betAllin: function () {
+                this.game.bet = this.account.balance
+            },
+            refreshData: function (under) {
+                this.game.payrate = 100 / under
+                this.game.payout = this.game.bet * 98.5 / under
+            },
+            initQuery: function () {
+                this.fetch('/status').then(
+                    d => {
+                        this.refreshData(this.game.under)
+                        this.setKey(d.k)
+                        this.table = d.rs
+                    }, (err) => this.$message.error(err)
+                )
+            },
+            setKey: function (k) {
+                if (k.vaild === false) {
+                    this.account.lock = true
+                    return
+                }
+                this.account.name = k.ak
+                this.account.vaild = k.vaild
+                this.account.balance = k.balance
+                this.account.bankrupt_at = k.bankrupt_at
+                this.account.create_at = k.create_at
+                this.account.tx_count = k.tx_count
+                this.account.peak = k.peak
+                this.account.lock = false
+                if (this.game.bet < this.game.balance) {
+                    this.game.bet = this.game.balance
+                }
+                if (k.bankrupt_at !== null) {
+                    this.game.payout = 0
+                    this.account.lock = true
+                }
+            },
+            accountInfo() {
+                let bankrupptInfo = this.account.bankrupt_at
+                if (bankrupptInfo === null) {
+                    bankrupptInfo = "No"
+                }
+                this.$alert('Create At：' + this.account.create_at + '<br/>Rounds：' + this.account.tx_count + '<br/>Peak Balance：' + this.account.peak + '<br/>Is Bankrupted：' + bankrupptInfo, 'Account Info', {
+                    confirmButtonText: 'Confirm',
+                    dangerouslyUseHTMLString: true,
+                })
+            },
+            makeRoll: function () {
+                if (this.game.bet > this.account.balance || this.game.bet < 1) {
+                    this.$alert('Bet Amount must between 1 and your balance', 'Roll Failed', {
+                        confirmButtonText: 'Confirm',
+                    })
+                    return
+                }
+                if (this.loading) {
+                    return
+                }
+                this.loading = true
+                this.fetch('/roll?bet=' + this.game.bet + '&under=' + this.game.under).then(
+                    d => {
+                        this.setKey(d.k)
+                        this.setRoll(d.r)
+                    }).catch((err) => this.$message.error(err)).finally(() => this.loading = false)
+            },
+            setRoll: function (r) {
+                if (r === null) {
+                    this.$alert('Please Check If AnyThing was WRONG', 'Roll Failed', {
+                        confirmButtonText: 'Confirm',
+                    })
+                    return
+                }
+                this.roll.random = r.roll_random
+                this.roll.result = r.result
+                let dom = document.getElementsByClassName('el-slider')[0]
+                this.roll.cssLeft = dom.offsetLeft - 12 + dom.offsetWidth * r.roll_random / 100
+                this.roll.cssTop = dom.offsetTop + 20
+                this.table.unshift(r)
+                if (this.table.length > 25) {
+                    this.table.pop()
+                }
+                this.showResult()
+            },
+            showResult: function () {
+                this.roll.show = true
+                setTimeout(function () {
+                    this.roll.show = false
+                }.bind(this), 1000)
+            },
+            get: function ($url) {
+                return new Promise((resolve, reject) => {
+                    this.$http.get($url).then(res => resolve(res), res => reject(res))
+                })
+            },
+            fetch: function ($url) {
+                return new Promise((resolve, reject) => {
+                    this.get("/api" + $url).then(res => {
+                        if (res.data.code === 0) {
+                            resolve(res.data.data)
+                        } else if (res.data.msg) {
+                            reject(res.data.code + '-' + res.data.msg)
+                        } else {
+                            reject(res.data.code)
+                        }
+                    }).catch(res => reject(res.status))
+                })
+            },
+        },
+        mounted: function () {
+            this.$watch("game.under", function (newVal, oldVal) {
+                if (newVal > 95) {
+                    this.game.under = 95
+                } else if (newVal < 2) {
+                    this.game.under = 2
+                }
+                this.refreshData(newVal)
+            })
+            this.$watch("game.bet", function (newVal, oldVal) {
+                this.refreshData(this.game.under)
+            })
+            this.$watch("account.balance", function (newVal, oldVal) {
+                let diff = (newVal - oldVal) / 7
+                let that = this
+                for (let v = oldVal, i = 0; i < 7; v += diff, i++) {
+                    setTimeout(function () {
+                        that.account.balanceShow = v
+                    }, i * 100)
+                }
+                setTimeout(function () {
+                    that.account.balanceShow = newVal
+                }, 700)
+            })
+            this.initQuery()
+        }
+    });
 </script>
 </html>

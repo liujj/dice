@@ -1,16 +1,14 @@
 package handler
 
 import (
-	"dice/pkg/global"
-	_ "dice/pkg/statik"
-	"dice/pkg/utils"
 	"net/http"
 	"os"
 	"path/filepath"
 
+	"dice/pkg/global"
+	"dice/pkg/utils"
+	"dice/view"
 	"github.com/labstack/echo/v4"
-	"github.com/rakyll/statik/fs"
-	"github.com/sirupsen/logrus"
 )
 
 func HandlePublic(e *echo.Group) {
@@ -53,11 +51,7 @@ func HandleGlobal(e *echo.Group) {
 		}
 	}
 	if !disableEmbedResource {
-		statikFS, err := fs.New()
-		if err != nil {
-			logrus.Fatalf("Static Resources load error: %v", err)
-		}
-		e.GET("/static/*", echo.WrapHandler(http.StripPrefix("/static/", http.FileServer(statikFS))))
+		e.GET("/static/*", echo.WrapHandler(http.StripPrefix("/static/", http.FileServer(http.FS(view.EmbedFs)))))
 	}
 }
 
